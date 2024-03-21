@@ -360,7 +360,8 @@ def main():
                     background : #111515;
                 }
                 * {
-                    color : #D1D2CA;
+                    color       : #D1D2CA;
+                    font-family : monospace;
                 }
                 table {
                     border-spacing  : 0;
@@ -512,7 +513,8 @@ def main():
                 padding         : 15pt;
             }
             * {
-                color : #D1D2CA;
+                color       : #D1D2CA;
+                font-family : monspace;
             }
             .brand {
                 margin-bottom : 15pt;
