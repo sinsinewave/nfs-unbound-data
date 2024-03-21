@@ -514,7 +514,7 @@ def main():
             }
             * {
                 color       : #D1D2CA;
-                font-family : monspace;
+                font-family : monospace;
             }
             .brand {
                 margin-bottom : 15pt;
