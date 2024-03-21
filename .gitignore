@@ -1,0 +1,5 @@
+# Symlink to data dir
+Unbound_*
+
+# Python cache
+__pycache__
