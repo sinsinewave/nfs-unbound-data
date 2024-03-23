@@ -164,6 +164,7 @@ def main():
                 "id"           : int(partTree.find("*/Id/ItemDataId/Id").text.strip("0x"), 16),
                 "purchaseable" : treeCar.find("*/Purchasable").text == "True",
                 "scoped"       : True,
+                "tags"         : list(map(lambda t: t.text.split(" ")[1].split("/")[-1], partTree.findall("*/ItemTags/member")))
             }
 
         # Locate shared parts
@@ -195,7 +196,8 @@ def main():
                 "id"           : int(partTree.find("*/Id/ItemDataId/Id").text.strip("0x"), 16),
                 "purchaseable" : treeCar.find("*/Purchasable").text == "True",
                 "scoped"       : True,
-                "set"          : "shared"
+                "set"          : "shared",
+                "tags"         : list(map(lambda t: t.text.split(" ")[1].split("/")[-1], partTree.findall("*/ItemTags/member")))
             }
 
 
@@ -310,6 +312,10 @@ def main():
                     <tr>
                         <th>Purchaseable</th>
                         <td class="{str(item["purchaseable"]).lower()}">{str(item["purchaseable"])}</td>
+                    </tr>
+                    <tr>
+                        <th>IgnoreUI</th>
+                        <td class="{str(not "ignoreui" in item["tags"]).lower()}">{"ignoreui" in item["tags"]}</td>
                     </tr>
                 </table>
             </div>
