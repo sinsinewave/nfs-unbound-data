@@ -93,12 +93,12 @@ def main():
             )
            
             newCarVar = {
-                "id"           : int(treeCar.find("RaceVehicleItemData/Id/ItemDataId/Id").text.strip("0x"), 16),
+                "id"           : int(treeCar.find("RaceVehicleItemData/Id/ItemDataId/Id").text.replace("0x", ""), 16),
                 "model"        : fileCar.split("_")[2].lower(),
-                "year"         : int(fileCar.split("_")[3].strip(".xml")),
+                "year"         : int(fileCar.split("_")[3].replace(".xml", "")),
                 "isCop"        : fileCar.lower().startswith("copcar_"),
                 "purchaseable" : treeCar.find("RaceVehicleItemData/Purchasable").text == "True",
-                "scope"        : list(map(lambda i: int(i.text.strip("0x"), 16), treeCar.findall("RaceVehicleItemData/SortedScope/member/ItemDataId/Id"))),
+                "scope"        : list(map(lambda i: int(i.text.replace("0x", ""), 16), treeCar.findall("RaceVehicleItemData/SortedScope/member/ItemDataId/Id"))),
                 "unscopedParts": {}
             }
 
@@ -157,11 +157,11 @@ def main():
                 + open(path.join(root, xmlFile), "r").read()
                 + "</root>"
             )
-            tmpParts[int(partTree.find("*/Id/ItemDataId/Id").text.strip("0x"), 16)] = {
+            tmpParts[int(partTree.find("*/Id/ItemDataId/Id").text.replace("0x", ""), 16)] = {
                 "path"         : path.join(root, xmlFile),
                 "type"         : xmlFile.split("_")[4].lower(),
                 "set"          : xmlFile.split("_")[5].replace(".xml", "").lower(),
-                "id"           : int(partTree.find("*/Id/ItemDataId/Id").text.strip("0x"), 16),
+                "id"           : int(partTree.find("*/Id/ItemDataId/Id").text.replace("0x", ""), 16),
                 "purchaseable" : treeCar.find("*/Purchasable").text == "True",
                 "scoped"       : True,
                 "tags"         : list(map(lambda t: t.text.split(" ")[1].split("/")[-1], partTree.findall("*/ItemTags/member")))
@@ -189,11 +189,11 @@ def main():
                 partType += "r"
             if xmlFile.lower().endswith("_f.xml"):
                 partType += "f"
-            sharedParts[int(partTree.find("*/Id/ItemDataId/Id").text.strip("0x"), 16)] = {
+            sharedParts[int(partTree.find("*/Id/ItemDataId/Id").text.replace("0x", ""), 16)] = {
                 "path"         : path.join(root, xmlFile),
                 "type"         : partType,
                 "name"         : "_".join(xmlFile.split("_")[2:]).lower().replace(".xml", ""),
-                "id"           : int(partTree.find("*/Id/ItemDataId/Id").text.strip("0x"), 16),
+                "id"           : int(partTree.find("*/Id/ItemDataId/Id").text.replace("0x", ""), 16),
                 "purchaseable" : treeCar.find("*/Purchasable").text == "True",
                 "scoped"       : True,
                 "set"          : "shared",
@@ -283,20 +283,85 @@ def main():
 
     log.dbug(f"Found part types: {', '.join(kt)}")
 
+    # Character items
+    # This really should be in another file
+    # But i'm lazy
+    # TODO: refactor this shit
+
+    log.info("Starting character item scan")
+
+    allCharItems = {}
+    for (root, dirs, files) in walkdir(dirItems):
+        for xmlFile in filter(
+            lambda p: regex(r"^characteritem_[a-z_]+_\d{3}(_\d{3})?.xml$", p.lower()),
+            files
+        ):
+            itemTree = xml.fromstring(
+                  "<root>"
+                + open(path.join(root, xmlFile), "r").read()
+                + "</root>"
+            )
+
+            itemType = regex(r"^characteritem_([a-z_]+)_\d{3}(_\d{3})?.xml$", xmlFile.lower()).group(1)
+
+            if itemType not in allCharItems.keys():
+                allCharItems[itemType] = []
+
+            numMatch = regex(r"^characteritem_[a-z_]+(\d{3})(_\d{3})?.xml$", xmlFile.lower())
+            idx = numMatch.group(1)
+            varDict = {
+                "path"         : path.join(root, xmlFile),
+                "name"         : xmlFile.lower().replace("characteritem_", "").replace(".xml", ""),
+                "model"        : "-1",
+                "id"           : int(itemTree.find("*/Id/ItemDataId/Id").text.replace("0x", ""), 16),
+                "purchaseable" : itemTree.find("*/Purchasable").text == "True",
+                "tags"         : list(map(lambda t: t.text.split(" ")[1].split("/")[-1], partTree.findall("*/ItemTags/member")))
+            }
+            if (numMatch.group(2)):
+                var = numMatch.group(2).replace("_", "")
+                varDict["model"] = var
+
+            if idx not in map(
+                lambda i: i["model"],
+                allCharItems[itemType]
+            ):
+                allCharItems[itemType].append({
+                    "model"    : idx,
+                    "type"     : itemType,
+                    "variants" : [varDict]
+                })
+            else:
+                list(filter(
+                    lambda i: i["model"] == idx,
+                    allCharItems[itemType]
+                ))[0]["variants"].append(varDict)
+
+
+    for (k,t) in allCharItems.items():
+        t.sort(
+            key = lambda i: i["model"]
+        )
+        for v in allCharItems[k]:
+            v["variants"].sort(
+                key = lambda i: i["model"]
+            )
+
+    log.info(f"Found {len(allCharItems)} character items")
+
     ### HTML GENERATOR PHASE ###
     # Why is this a thing? who the hell knows
     # Does it work? hell yeah
 
     log.info("Generating HTML documents")
 
-    try:
-        mkdir("cars")
-    except:
-        pass
+    try:    mkdir("cars")
+    except: pass
+    try:    mkdir("character")
+    except: pass
 
     templates = {
         "header" : lambda titles: f"""
-            <tr class="main-header top"><th></th>{''.join(list(map(lambda c: "<th>"+c+"</th>", titles)))}</tr>
+            <tr class="main-hea~der top"><th></th>{''.join(list(map(lambda c: "<th>"+c+"</th>", titles)))}</tr>
         """.strip(),
         "row"    : lambda header, content: f"""
             <tr class="main-row"><th class="main-header left">{header}</th>{''.join(list(map(lambda c: "<td class=\"col\">"+c+"</td>", content)))}</tr>
@@ -319,7 +384,23 @@ def main():
                     </tr>
                 </table>
             </div>
+        """.strip(),
+        "charitem" : lambda item: f"""
+            <div class="subtile">
+                <b>{item['id']}</b>
+                <table>
+                    <tr>
+                        <th>Variant</th>
+                        <td class="neither">{item['model'] if item['model'] != "-1" else "-"}</td>
+                    </tr>
+                    <tr>
+                        <th>Purchaseable</th>
+                        <td class="{str(item["purchaseable"]).lower()}">{str(item["purchaseable"])}</td>
+                    </tr>
+                </table>
+            </div>
         """.strip()
+
     }
 
     for car in CARS:
@@ -380,6 +461,9 @@ def main():
                 td.false {
                     background : #FF355E;
                     color      : #25272C;
+                }
+                td.neither {
+                    background : #25272C;
                 }
                 .main {
                     overflow : hidden;
@@ -614,6 +698,220 @@ def main():
         </body>
         """
 
-        with open("index.html", "w") as htmlFile:
+    log.info("Writing car list HTML")
+    with open("car_index.html", "w") as htmlFile:
+        htmlFile.write(HTML)
+
+    charItemTypes = list(allCharItems.keys())
+
+    charItemTypes.sort()
+
+    for t in charItemTypes:
+        HTML = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body {
+                    background : #111515;
+                }
+                * {
+                    color       : #D1D2CA;
+                    font-family : monospace;
+                }
+                table {
+                    border-spacing  : 0;
+                    border-collapse : collapse;
+                }
+                td.true {
+                    background : #0BDA51;
+                    color      : #25272C;
+                }
+                td.false {
+                    background : #FF355E;
+                    color      : #25272C;
+                }
+                td.neither {
+                    background : #25272C;
+                }
+                .main {
+                    overflow : hidden;
+                }
+                .main-header th {
+                    padding : 3.5pt;
+                }
+                td {
+                    border : 1px solid #000000;
+                }
+                .main-header {
+                    position   : sticky;
+                    background : #202225;
+                    z-index    : 2;
+                }
+                tbody tr:nth-of-type(even) th,
+                tr.main-header th:nth-of-type(even) {
+                    background : #25272C;
+                }
+                tr.main-header.top {
+                    top        : 0;
+                }
+                th.main-header.left {
+                    left       : 0;
+                }
+                .subtile {
+                    display         : flex;
+                    flex-direction  : column;
+                    justify-content : middle;
+                    background      : #000000;
+                    box-shadow      : 0 0 15px 0 black;
+                    margin          : 3.5pt;
+                }
+                .subtile b {
+                    background    : linear-gradient(to right, #0BDA51, #C1F07C);
+                    text-align    : center;
+                    color         : #25272C;
+                    margin-bottom : 2pt;
+                    border-radius : 5pt;
+                }
+                .subtile tr th {
+                    text-align    : left;
+                    padding-left  : 5pt;
+                    padding-right : 5pt;
+                    background    : #25272C;
+                }
+                .main-row:hover {
+                    background : #101212;
+                    overflow   : visible;
+                }
+                .col {
+                    position   : relative;
+                    background : transparent;
+                }
+                .col:hover:before {
+                    content    : '\00';  
+                    height     : 300vh;
+                    left       : 0;
+                    position   : absolute;  
+                    top        : -100vh;
+                    z-index    : -1;
+                    width      : 100%;
+                    background : #101212;
+                    overflow   : visible;
+                }
+            </style>
+        </head>
+        <body>
+            <table class="main">
+        """.strip()
+
+        rows = []
+        maxLen = max(map(
+            lambda x: len(x["variants"]),
+            allCharItems[t]
+        ))
+        for item in allCharItems[t]:
+            rows.append([item["model"]])
+            for vi in range(0, maxLen):
+                try:
+                    rows[-1].append(templates["charitem"](item["variants"][vi]))
+                except IndexError:
+                    rows[-1].append("")
+
+        for row in rows:
+            HTML += templates["row"](row[0], row[1:])
+
+        HTML += """
+            </table>
+        </body>
+        </html>
+        """.strip()
+
+        with open(path.join("character", f"{t}.html"), "w") as htmlFile:
+            htmlFile.write(HTML)
+ 
+        # Generate charitem list
+        HTML = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+            body {
+                background      : black;
+                display         : flex;
+                justify-content : center;
+                flex-direction  : column;
+                align-items     : center;
+            }
+            body div {
+                display         : flex;
+                background      : #111515;
+                max-width       : 800px;
+                width           : 100%;
+                justify-content : center;
+                flex-direction  : column;
+                align-items     : stretch;
+                padding         : 15pt;
+            }
+            * {
+                color       : #D1D2CA;
+                font-family : monospace;
+            }
+            .typeLink:nth-of-type(odd) {
+                background : #202225;
+            }
+            .typeLink {
+                display         : flex;
+                justify-content : space-between;
+                padding         : 3.5pt;
+                align-items     : center;
+                border-radius   : 10pt;
+            }
+            .typeLink:hover {
+                background : #303235;
+            }
+            .typeLink:nth-of-type(even):hover {
+                background : #25272C;
+            }
+            .typeLink span {
+                align-content   : flex-end;
+                display         : flex;
+                justify-content : flex-end;
+                gap             : 5pt 10pt;
+                flex-wrap       : wrap;
+            }
+            .typeLink a {
+                text-decoration : none;
+                flex-grow       : 1;
+                min-width       : 225px;
+            }
+            .varTag {
+                margin        : 0px;
+                margin-left   : 5pt;
+                padding       : 3.5pt;
+                background    : linear-gradient(to right, #C1F07C, #0BDA51);
+                border-radius : 10pt;
+                color         : #25272C;
+            }
+            .none {
+                background : transparent;
+                color      : #4C4F56;
+            }
+            </style>
+        </head>
+        <body>
+        <h2>NFS Unbound CharacterItem Lists</h2>
+        <div>
+        """.strip()
+        for t in charItemTypes:
+            HTML += f"<span class='typeLink'>"
+            HTML += f"<a href='character/{t}.html'>{t}</a>"
+            HTML += f"</span>"
+
+        HTML += """
+        </div>
+        </body>
+        """
+
+        with open("char_index.html", "w") as htmlFile:
             htmlFile.write(HTML)
 main()
