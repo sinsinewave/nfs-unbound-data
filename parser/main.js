@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Log_js_1 = require("./util/Log.js");
 var CarScanner_js_1 = require("./scanner/CarScanner.js");
 var Context_js_1 = require("./Context.js");
-function main() {
+function main(args) {
     return __awaiter(this, void 0, void 0, function () {
         var globalContext;
         return __generator(this, function (_a) {
@@ -49,13 +49,12 @@ function main() {
                     globalContext = new Context_js_1.Context();
                     Log_js_1.log.info("Main :: Initialising");
                     Log_js_1.log.dbug("Main :: Debug logging enabled");
-                    return [4 /*yield*/, CarScanner_js_1.CarScanner.scan("/home/sigma1/Projects/Code/NFS Unbound EBX Parser/Unbound_V6", globalContext)];
+                    return [4 /*yield*/, CarScanner_js_1.CarScanner.scan(args[2], globalContext)];
                 case 1:
                     globalContext = _a.sent();
-                    console.log(globalContext);
                     return [2 /*return*/];
             }
         });
     });
 }
-main();
+main(process.argv);
