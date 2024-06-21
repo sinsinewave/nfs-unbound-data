@@ -1,5 +1,6 @@
 # Symlink to data dir
 Unbound_*
 
-# Python cache
-__pycache__
+# Node stuff
+parser/node_modules
+parser/package-lock.json
