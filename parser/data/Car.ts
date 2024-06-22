@@ -1,7 +1,10 @@
+import { CarVisualPart } from "./CarVisualPart.js"
+
 export class Car {
-    id        : number
-    name      : {}
-    partScope : number[]
+    id           : number
+    name         : {}
+    partScope    : CarVisualPart[]
+    defaultScope : CarVisualPart[]
 
     constructor(
         public path  : string,
@@ -15,6 +18,7 @@ export class Car {
             year  : year
         }
         
-        this.partScope = []
+        this.partScope    = []
+        this.defaultScope = []
     }
 }

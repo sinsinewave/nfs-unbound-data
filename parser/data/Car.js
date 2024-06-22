@@ -10,6 +10,7 @@ var Car = /** @class */ (function () {
             year: year
         };
         this.partScope = [];
+        this.defaultScope = [];
     }
     return Car;
 }());

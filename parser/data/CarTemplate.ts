@@ -1,10 +1,10 @@
 import { Car           } from "./Car.js"
-import { VisualCarPart } from "./VisualCarPart.js"
+import { CarVisualPart } from "./CarVisualPart.js"
 
 export class CarTemplate {
     name        : {}
     cars        : Car[]
-    visualParts : VisualCarPart[]
+    visualParts : CarVisualPart[]
 
     constructor(
         public path      : string,

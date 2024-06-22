@@ -20,9 +20,10 @@ export class CarScanner {
         let fileList = walkDir(
             path,
             (it : string): boolean => {
-                return /^(cop)?car_[0-9a-z]+_[0-9a-z]+_\d{4}(_(cop|icon))?.xml$/gmi.test(it)
+                return /^(cop)?car_[0-9a-z]+_[0-9a-z]+_\d{4}(_(cop|icon))?\.xml$/gmi.test(it)
             },
             (it : string): boolean => {
+                // filter to items dir, ignore secondhand vehicles, contains nothing of relevance to this tool
                 return it.includes("items") && !it.includes("secondhand_vehicles")
             }  
         )
@@ -30,7 +31,7 @@ export class CarScanner {
         log.info(`CarScanner :: Found ${fileList.files.length} car XMLs in ${fileList.dirs.length} directories`)
         log.info("CarScanner :: Sorting results")
 
-        // Organise cars per directory
+        // Organise cars per directory for easier processing
         let filesByDir = {}
         for (let dir of fileList.dirs) {
             log.dbug(`CarScanner :: ${dir}`)
@@ -43,7 +44,7 @@ export class CarScanner {
         log.info("CarScanner :: Parsing results into objects")
         // Parse into CarTemplates and Cars
         for (let dir in filesByDir) {
-            // Cut out brand, model, and year, and make a CarTemplate
+            // Carve out brand, model, and year, and make a CarTemplate
             let template = new CarTemplate(
                 dir,
                 dir.split("/").at(-1)!.split("_")[1],
