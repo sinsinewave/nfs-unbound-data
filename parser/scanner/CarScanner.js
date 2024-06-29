@@ -118,9 +118,7 @@ var CarScanner = /** @class */ (function () {
                     case 6:
                         _e++;
                         return [3 /*break*/, 1];
-                    case 7:
-                        Log_js_1.log.info("CarScanner :: CarScanner done!");
-                        return [2 /*return*/, context];
+                    case 7: return [2 /*return*/, context];
                 }
             });
         });

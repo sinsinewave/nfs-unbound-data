@@ -46,20 +46,20 @@ var CarPartMapper = /** @class */ (function () {
     }
     CarPartMapper.map = function (context) {
         return __awaiter(this, void 0, void 0, function () {
-            var _loop_1, _i, _a, carTemplate;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _loop_1, _i, _a, carTemplate, _loop_2, _b, _c, carTemplate;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
-                        Log_js_1.log.info("CarPartMapper :: Mapping car parts");
+                        Log_js_1.log.info("CarPartMapper :: Mapping in-scope car parts");
                         _loop_1 = function (carTemplate) {
-                            var _loop_2, _c, _d, car;
-                            return __generator(this, function (_e) {
-                                switch (_e.label) {
+                            var _loop_3, _e, _f, car;
+                            return __generator(this, function (_g) {
+                                switch (_g.label) {
                                     case 0:
-                                        _loop_2 = function (car) {
+                                        _loop_3 = function (car) {
                                             var data, xmlObj, sortedScope;
-                                            return __generator(this, function (_f) {
-                                                switch (_f.label) {
+                                            return __generator(this, function (_h) {
+                                                switch (_h.label) {
                                                     case 0:
                                                         data = "";
                                                         try {
@@ -72,7 +72,7 @@ var CarPartMapper = /** @class */ (function () {
                                                         Log_js_1.log.dbug("CarPartMapper :: Parsing XML");
                                                         return [4 /*yield*/, xml2js.parseStringPromise(data)];
                                                     case 1:
-                                                        xmlObj = _f.sent();
+                                                        xmlObj = _h.sent();
                                                         sortedScope = xmlObj.RaceVehicleItemData.SortedScope[0].member.map(function (it) {
                                                             return Number(it.ItemDataId[0].Id[0]);
                                                         });
@@ -89,35 +89,62 @@ var CarPartMapper = /** @class */ (function () {
                                                 }
                                             });
                                         };
-                                        _c = 0, _d = carTemplate.cars;
-                                        _e.label = 1;
+                                        _e = 0, _f = carTemplate.cars;
+                                        _g.label = 1;
                                     case 1:
-                                        if (!(_c < _d.length)) return [3 /*break*/, 4];
-                                        car = _d[_c];
-                                        return [5 /*yield**/, _loop_2(car)];
+                                        if (!(_e < _f.length)) return [3 /*break*/, 4];
+                                        car = _f[_e];
+                                        return [5 /*yield**/, _loop_3(car)];
                                     case 2:
-                                        _e.sent();
-                                        _e.label = 3;
+                                        _g.sent();
+                                        _g.label = 3;
                                     case 3:
-                                        _c++;
+                                        _e++;
                                         return [3 /*break*/, 1];
                                     case 4: return [2 /*return*/];
                                 }
                             });
                         };
                         _i = 0, _a = context.carTemplates;
-                        _b.label = 1;
+                        _d.label = 1;
                     case 1:
                         if (!(_i < _a.length)) return [3 /*break*/, 4];
                         carTemplate = _a[_i];
                         return [5 /*yield**/, _loop_1(carTemplate)];
                     case 2:
-                        _b.sent();
-                        _b.label = 3;
+                        _d.sent();
+                        _d.label = 3;
                     case 3:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/, context];
+                    case 4:
+                        Log_js_1.log.info("CarPartMapper :: Mapping out-of-scope car parts");
+                        _loop_2 = function (carTemplate) {
+                            context.carVisualParts.filter(function (it) {
+                                return !carTemplate.visualParts.includes(it);
+                            }).forEach(function (it) {
+                                if (it.path.toLowerCase().includes(carTemplate.path.toLowerCase())) {
+                                    carTemplate.visualParts.push(it);
+                                }
+                                // Special cases
+                                // Ugh
+                                // Criterion why
+                                else if (it.path.includes("polerstar_1_2020") && carTemplate.path.includes("polestar_1_2020")) {
+                                    Log_js_1.log.info("CarPartMapper :: Handling Polestar/Polerstar typo for part ".concat(it.id));
+                                    carTemplate.visualParts.push(it);
+                                }
+                                else if (it.path.includes("nissan_gtrnismo_2017") && carTemplate.path.includes("nissan_gtr_2017")) {
+                                    Log_js_1.log.info("CarPartMapper :: Handling GT-R Nismo part separation for part ".concat(it.id));
+                                    carTemplate.visualParts.push(it);
+                                }
+                            });
+                        };
+                        // Map based on parent directory
+                        for (_b = 0, _c = context.carTemplates; _b < _c.length; _b++) {
+                            carTemplate = _c[_b];
+                            _loop_2(carTemplate);
+                        }
+                        return [2 /*return*/, context];
                 }
             });
         });

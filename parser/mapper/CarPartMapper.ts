@@ -43,7 +43,28 @@ export class CarPartMapper {
         }
 
         log.info("CarPartMapper :: Mapping out-of-scope car parts")
-        // TODO
+        // Map based on parent directory
+        for (let carTemplate of context.carTemplates) {
+            context.carVisualParts.filter((it) => {
+                return !carTemplate.visualParts.includes(it)
+            }).forEach((it) => {
+                if (it.path.toLowerCase().includes(carTemplate.path.toLowerCase())) {
+                    carTemplate.visualParts.push(it)
+                }
+                // Special cases
+                // Ugh
+                // Criterion why
+                else if (it.path.includes("polerstar_1_2020") && carTemplate.path.includes("polestar_1_2020")) {
+                    log.info(`CarPartMapper :: Handling Polestar/Polerstar typo for part ${it.id}`)
+                    carTemplate.visualParts.push(it)
+                }
+                else if (it.path.includes("nissan_gtrnismo_2017") && carTemplate.path.includes("nissan_gtr_2017")) {
+                    log.info(`CarPartMapper :: Handling GT-R Nismo part separation for part ${it.id}`)
+                    carTemplate.visualParts.push(it)
+                }
+            })
+        }
+
         return context
     }
 }

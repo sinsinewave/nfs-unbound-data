@@ -19,7 +19,6 @@ async function main(args) {
     globalContext = await CarPartScanner.scan(args[2], globalContext)
     globalContext = await CarPartMapper.map(globalContext)
 
-    console.log(util.inspect(globalContext.carTemplates, false, null))
 }
 
 main(process.argv)

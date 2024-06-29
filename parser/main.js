@@ -61,7 +61,6 @@ function main(args) {
                     return [4 /*yield*/, CarPartMapper_js_1.CarPartMapper.map(globalContext)];
                 case 3:
                     globalContext = _a.sent();
-                    console.log(util.inspect(globalContext.carTemplates, false, null));
                     return [2 /*return*/];
             }
         });
