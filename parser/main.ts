@@ -2,6 +2,7 @@ import { log     } from "./util/Log.js"
 
 import { CarScanner     } from "./scanner/CarScanner.js"
 import { CarPartScanner } from "./scanner/CarPartScanner.js"
+import { CarPartMapper  } from "./mapper/CarPartMapper.js"
 
 import { Context } from "./Context.js"
 
@@ -16,8 +17,9 @@ async function main(args) {
     log.dbug("Main :: Debug logging enabled")
     globalContext = await CarScanner.scan(args[2], globalContext)
     globalContext = await CarPartScanner.scan(args[2], globalContext)
+    globalContext = await CarPartMapper.map(globalContext)
 
-    console.log(util.inspect(globalContext, false, null))
+    console.log(util.inspect(globalContext.carTemplates, false, null))
 }
 
 main(process.argv)

@@ -74,7 +74,6 @@ export class CarScanner {
             }
             context.carTemplates.push(template)
         }
-        log.info("CarScanner :: CarScanner done!")
 
         return context
     }

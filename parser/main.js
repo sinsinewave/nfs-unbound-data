@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Log_js_1 = require("./util/Log.js");
 var CarScanner_js_1 = require("./scanner/CarScanner.js");
 var CarPartScanner_js_1 = require("./scanner/CarPartScanner.js");
+var CarPartMapper_js_1 = require("./mapper/CarPartMapper.js");
 var Context_js_1 = require("./Context.js");
 var util = require('util');
 function main(args) {
@@ -57,7 +58,10 @@ function main(args) {
                     return [4 /*yield*/, CarPartScanner_js_1.CarPartScanner.scan(args[2], globalContext)];
                 case 2:
                     globalContext = _a.sent();
-                    console.log(util.inspect(globalContext, false, null));
+                    return [4 /*yield*/, CarPartMapper_js_1.CarPartMapper.map(globalContext)];
+                case 3:
+                    globalContext = _a.sent();
+                    console.log(util.inspect(globalContext.carTemplates, false, null));
                     return [2 /*return*/];
             }
         });

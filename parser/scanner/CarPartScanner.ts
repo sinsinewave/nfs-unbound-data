@@ -52,7 +52,7 @@ export class CarPartScanner {
             let part = new CarVisualPart(
                 file,
                 Number(itemData.Id[0].ItemDataId[0].Id[0]),
-                file.split("_").at(-1).split(".")[0]
+                file.split("_").at(-1).split(".")[0].replace(/^(set)/, "")
             )
 
             // Figure out ignoreUI flag
@@ -84,6 +84,7 @@ export class CarPartScanner {
             // (And a case-sensitive filesystem)
             let typeString = ""
             if (file.toLowerCase().split("/").at(-1).includes("shared_")) {
+                // Shared parts have their type in a different spot of the filename
                 if (
                     file.toLowerCase().endsWith("_r.xml")
                 ||  file.toLowerCase().endsWith("_f.xml")
@@ -92,6 +93,7 @@ export class CarPartScanner {
                 ||  file.toLowerCase().endsWith("_fl.xml")
                 ||  file.toLowerCase().endsWith("_rl.xml")
                 ) {
+                    // Most need rear/front information appended from the end of the filename too
                     typeString = `${
                         file.split("/").at(-1).split("_")[1]
                     }${
@@ -103,6 +105,7 @@ export class CarPartScanner {
                 }
             }
             else {
+                // Non-shared parts are more trivial
                 typeString = file.split("_").at(-2)
             }
             part.setTypeAsString(typeString)
