@@ -5,6 +5,7 @@ var Context = /** @class */ (function () {
     function Context() {
         this.carTemplates = [];
         this.carVisualParts = [];
+        this.args = {};
     }
     return Context;
 }());

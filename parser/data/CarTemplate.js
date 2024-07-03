@@ -14,6 +14,9 @@ var CarTemplate = /** @class */ (function () {
         this.cars = [];
         this.visualParts = [];
     }
+    CarTemplate.prototype.getName = function () {
+        return "".concat(this.name.brand, "_").concat(this.name.model, "_").concat(this.name.year);
+    };
     return CarTemplate;
 }());
 exports.CarTemplate = CarTemplate;

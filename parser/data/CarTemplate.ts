@@ -2,7 +2,11 @@ import { Car           } from "./Car.js"
 import { CarVisualPart } from "./CarVisualPart.js"
 
 export class CarTemplate {
-    name        : {}
+    name        : {
+                    brand : string,
+                    model : string,
+                    year  : number
+                }
     cars        : Car[]
     visualParts : CarVisualPart[]
 
@@ -20,5 +24,9 @@ export class CarTemplate {
         }
         this.cars        = []
         this.visualParts = []
+    }
+
+    getName(): string {
+        return `${this.name.brand}_${this.name.model}_${this.name.year}`
     }
 }

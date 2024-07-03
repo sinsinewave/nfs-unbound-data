@@ -12,9 +12,9 @@ let util   = require("util")
 
 export class CarPartScanner {
     static async scan(
-        path    : string,
         context : Context
     ) : Promise<Context> {
+        let path = context.args.dataPath
         return this.scanItems(path, context)
     }
 
@@ -52,7 +52,7 @@ export class CarPartScanner {
             let part = new CarVisualPart(
                 file,
                 Number(itemData.Id[0].ItemDataId[0].Id[0]),
-                file.split("_").at(-1).split(".")[0].replace(/^(set)/, "")
+                file.includes("shared_") ? "shared" : file.split("_").at(-1).split(".")[0].replace(/^(set)/, "")
             )
 
             // Figure out ignoreUI flag

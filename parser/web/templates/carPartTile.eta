@@ -1,0 +1,20 @@
+<div id="partGrid-<%= it.id %>" class="subGrid">
+    <b class="title"><%= it.id %></b>
+    <table><tbody>
+        <tr>
+            <th>In Scopes?</th>
+            <td title="<%- it.scopes.map((jt) => { return jt.name.model }).forEach((kt, idx) => { -%>
+                <%_= `${idx != 0 ? "\n" : ""}${kt}` -%>
+            <%- }) -%>
+            "><%= it.scopes.length %></td>
+        </tr>
+        <tr>
+            <th>Purchaseable?</th>
+            <td><%= it.flags.purchasable %></td>
+        </tr>
+            <th>IgnoreUI Set?</th>
+            <td><%= it.flags.ignoreUI %></td>
+        </tr>
+    </tbody></table
+</div>
+

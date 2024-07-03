@@ -12,9 +12,9 @@ let util   = require("util")
 
 export class CarScanner {
     static async scan(
-        path    : string,
         context : Context
     ): Promise<Context> {
+        let path = context.args.dataPath
         // Locate car XMLs and directories, with some filtering
         log.info("CarScanner :: Looking for files")
         let fileList = walkDir(
@@ -71,6 +71,7 @@ export class CarScanner {
                 )
 
                 template.cars.push(car)
+                car.template = template
             }
             context.carTemplates.push(template)
         }

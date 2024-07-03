@@ -84,6 +84,9 @@ var CarPartMapper = /** @class */ (function () {
                                                             if (!carTemplate.visualParts.includes(it)) {
                                                                 carTemplate.visualParts.push(it);
                                                             }
+                                                            if (!it.scopes.includes(car)) {
+                                                                it.scopes.push(car);
+                                                            }
                                                         });
                                                         return [2 /*return*/];
                                                 }

@@ -47,12 +47,13 @@ var util = require("util");
 var CarScanner = /** @class */ (function () {
     function CarScanner() {
     }
-    CarScanner.scan = function (path, context) {
+    CarScanner.scan = function (context) {
         return __awaiter(this, void 0, void 0, function () {
-            var fileList, filesByDir, _loop_1, _i, _a, dir, _b, _c, _d, _e, dir, template, _f, _g, file, data, xmlObj, car;
+            var path, fileList, filesByDir, _loop_1, _i, _a, dir, _b, _c, _d, _e, dir, template, _f, _g, file, data, xmlObj, car;
             return __generator(this, function (_h) {
                 switch (_h.label) {
                     case 0:
+                        path = context.args.dataPath;
                         // Locate car XMLs and directories, with some filtering
                         Log_js_1.log.info("CarScanner :: Looking for files");
                         fileList = (0, Files_js_1.walkDir)(path, function (it) {
@@ -108,6 +109,7 @@ var CarScanner = /** @class */ (function () {
                         xmlObj = _h.sent();
                         car = new Car_js_1.Car(file, Number(xmlObj.RaceVehicleItemData.Id[0].ItemDataId[0].Id[0]), file.split("/").at(-1).split("_")[2], file.split("/").at(-1).split("_")[3]);
                         template.cars.push(car);
+                        car.template = template;
                         _h.label = 4;
                     case 4:
                         _f++;

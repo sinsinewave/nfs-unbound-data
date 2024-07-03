@@ -1,7 +1,9 @@
 import { log } from "../util/Log.js"
 
+import { Car } from "./Car.js"
+
 export class CarVisualPart {
-    scopes : number[]
+    scopes : Car[]
     flags  : {
         purchasable : boolean,
         ignoreUI    : boolean,

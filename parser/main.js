@@ -40,6 +40,7 @@ var Log_js_1 = require("./util/Log.js");
 var CarScanner_js_1 = require("./scanner/CarScanner.js");
 var CarPartScanner_js_1 = require("./scanner/CarPartScanner.js");
 var CarPartMapper_js_1 = require("./mapper/CarPartMapper.js");
+var CarHtmlCompiler_js_1 = require("./web/CarHtmlCompiler.js");
 var Context_js_1 = require("./Context.js");
 var util = require('util');
 function main(args) {
@@ -50,16 +51,21 @@ function main(args) {
                 case 0:
                     Log_js_1.log.level = 1;
                     globalContext = new Context_js_1.Context();
+                    globalContext.args.dataPath = args[2];
+                    globalContext.args.outPath = args[3];
                     Log_js_1.log.info("Main :: Initialising");
                     Log_js_1.log.dbug("Main :: Debug logging enabled");
-                    return [4 /*yield*/, CarScanner_js_1.CarScanner.scan(args[2], globalContext)];
+                    return [4 /*yield*/, CarScanner_js_1.CarScanner.scan(globalContext)];
                 case 1:
                     globalContext = _a.sent();
-                    return [4 /*yield*/, CarPartScanner_js_1.CarPartScanner.scan(args[2], globalContext)];
+                    return [4 /*yield*/, CarPartScanner_js_1.CarPartScanner.scan(globalContext)];
                 case 2:
                     globalContext = _a.sent();
                     return [4 /*yield*/, CarPartMapper_js_1.CarPartMapper.map(globalContext)];
                 case 3:
+                    globalContext = _a.sent();
+                    return [4 /*yield*/, CarHtmlCompiler_js_1.CarHtmlCompiler.compile(globalContext)];
+                case 4:
                     globalContext = _a.sent();
                     return [2 /*return*/];
             }

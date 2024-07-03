@@ -1,0 +1,21 @@
+<table class="main-table"><tbody>
+    <tr class="row-0">
+        <th></th>
+        <% it.headers.forEach((jt) => { %>
+        <th><%= jt %></th>
+        <% }) %>
+    </tr>
+
+    <% it.sets.forEach((jt) => { %>
+    <tr>
+        <th>set<%= jt %></th>
+        <% it.parts[jt].forEach((kt) => { %>
+            <th>
+            <% if (kt) { %>
+                <%~ include("./carPartTile", kt) %>
+            <% } %>
+            </th>
+        <% }) %>
+    </tr>
+    <% }) %>
+</tbody></table>
