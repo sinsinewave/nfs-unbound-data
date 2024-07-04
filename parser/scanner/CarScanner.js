@@ -107,7 +107,7 @@ var CarScanner = /** @class */ (function () {
                         return [4 /*yield*/, xml2js.parseStringPromise(data)];
                     case 3:
                         xmlObj = _h.sent();
-                        car = new Car_js_1.Car(file, Number(xmlObj.RaceVehicleItemData.Id[0].ItemDataId[0].Id[0]), file.toLowerCase().split("/").at(-1).split("_")[2] + (file.toLowerCase().includes("cop") ? " cop" : ""), file.toLowerCase().split("/").at(-1).split("_")[3]);
+                        car = new Car_js_1.Car(file, Number(xmlObj.RaceVehicleItemData.Id[0].ItemDataId[0].Id[0]), file.toLowerCase().split("/").at(-1).split("_")[2] + (file.toLowerCase().includes("cop") ? "_cop" : ""), file.toLowerCase().split("/").at(-1).split("_")[3]);
                         template.cars.push(car);
                         car.template = template;
                         _h.label = 4;
