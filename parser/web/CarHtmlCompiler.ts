@@ -73,14 +73,37 @@ export class CarHtmlCompiler {
             })
 
             // Write table HTML files
-            let outFile = path.join(context.args.outPath, `${template.getName()}.html`)
+            let outFile = path.join(context.args.outPath, `cars/${template.getName()}.html`)
             log.info(`CarHtmlCompiler :: Writing ${outFile}`)
             fs.writeFileSync(
                 outFile,
                 document, 
-                { flag: 'w' }
+                { flag : 'w' }
             )
         }
+
+        log.info("CarHtmlCompiler :: Generating listing HTML")
+
+        let carGroups = {}
+        for (let template of context.carTemplates) {
+            if (carGroups[template.name.brand] === undefined) {
+                carGroups[template.name.brand] = []
+            }
+            carGroups[template.name.brand].push(template)
+        }
+
+        let document = eta.render("./root", {
+            body : eta.render("./list", {
+                itemGroups : carGroups
+            })
+        })
+
+        log.info("CarHtmlCompiler :: Writing listing file")
+        fs.writeFileSync(
+            path.join(context.args.outPath, "carlist.html"),
+            document,
+            { flag : 'w' }
+        )
 
         return context
     }

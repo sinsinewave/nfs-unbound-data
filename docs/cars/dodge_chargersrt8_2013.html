@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
+        <link rel="stylesheet" type="text/css" href="styles/list.css">
+        <script>
+            function updateTableFilter(e) {
+                let scope = e.value
+                document.querySelectorAll(`.subGrid`).forEach((it) => {
+                    it.classList.remove("fade")
+                })
+                if (scope == "none") { return }
+                document.querySelectorAll(`.subGrid:not(.scope-${scope})`).forEach((it) => {
+                    it.classList.add("fade")
+                })
+            }
+        </script>
+    </head>
+
+    <body><span class="table-options">
+    <div>
+        <label for="filter">Highlight Scope</label>
+        <select name="filter" id="filter" onchange="updateTableFilter(this)">
+            <option value="none">none</option>
+                <option value="ChargerSRT8">ChargerSRT8</option>
+        </select>
+    </div>
+    <h1>dodge_chargersrt8_2013</h1> 
+</span>
+<table class="main-table"><tbody>
+    <tr class="row-0">
+        <th></th>
+        <th class="col-1">Front Bumper</th>
+        <th class="col-2">Front Rims</th>
+        <th class="col-3">Rear Rims</th>
+    </tr>
+    <tr>
+        <th class="col-0">setsetb</th>
+        <td class="col-1 row-1">
+        </td>
+        <td class="col-2 row-1"><div id="partGrid-59948901" class="subGrid scope-ChargerSRT8         ">
+    <b class="title">59948901</b>
+    <table><tbody>
+        <tr>
+            <th>In Scopes</th>
+            <td title="ChargerSRT8" class="field highlight positive
+            ">1/1</td>
+        </tr>
+        <tr>
+            <th>Purchaseable</th>
+            <td class="field highlight positive">true</td>
+        </tr>
+            <th>IgnoreUI</th>
+            <td class="field highlight positive">false</td>
+        </tr>
+    </tbody></table
+</div>
+
+        </td>
+        <td class="col-3 row-1"><div id="partGrid-53017007" class="subGrid scope-ChargerSRT8         ">
+    <b class="title">53017007</b>
+    <table><tbody>
+        <tr>
+            <th>In Scopes</th>
+            <td title="ChargerSRT8" class="field highlight positive
+            ">1/1</td>
+        </tr>
+        <tr>
+            <th>Purchaseable</th>
+            <td class="field highlight positive">true</td>
+        </tr>
+            <th>IgnoreUI</th>
+            <td class="field highlight positive">false</td>
+        </tr>
+    </tbody></table
+</div>
+
+        </td>
+    </tr>
+    <tr>
+        <th class="col-0">setsetc</th>
+        <td class="col-1 row-2"><div id="partGrid-45764709" class="subGrid scope-ChargerSRT8         ">
+    <b class="title">45764709</b>
+    <table><tbody>
+        <tr>
+            <th>In Scopes</th>
+            <td title="ChargerSRT8" class="field highlight positive
+            ">1/1</td>
+        </tr>
+        <tr>
+            <th>Purchaseable</th>
+            <td class="field highlight positive">true</td>
+        </tr>
+            <th>IgnoreUI</th>
+            <td class="field highlight positive">false</td>
+        </tr>
+    </tbody></table
+</div>
+
+        </td>
+        <td class="col-2 row-2">
+        </td>
+        <td class="col-3 row-2">
+        </td>
+    </tr>
+</tbody></table>
+
+    </body>
+</html>

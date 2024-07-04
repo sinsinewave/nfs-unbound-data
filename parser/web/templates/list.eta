@@ -1,0 +1,12 @@
+<div class="groupedList">
+    <%  for (let item in it.itemGroups) { %>
+        <div class=group>
+            <h2 class="title"><%= item %> </h2>
+            <div class="rows">
+                <% for (let template of it.itemGroups[item]) { %>
+                    <a href="cars/<%= `${template.getName()}.html` %>"><p><%= `${template.name.year}` %></p><b><%= ` ${template.name.model}` %></b></a>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+</div>

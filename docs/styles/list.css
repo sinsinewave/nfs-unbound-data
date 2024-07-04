@@ -1,0 +1,57 @@
+.groupedList > .group {
+    display : flex;
+
+    flex-direction : column;
+
+    margin  : 10pt;
+    padding-top : 5pt;
+
+    background : var(--col-bg-light);
+}
+
+.groupedList > .group > .title {
+    display : block;
+    width   : fit-content;
+
+    padding-left  : 5pt;
+    padding-right : 7pt;
+
+    margin : 4pt;
+
+    font-style : italic;
+
+    background : linear-gradient(100deg,
+        transparent                                              2%,
+        var(--col-accent)                                        5%,
+        color-mix(in srgb, var(--col-accent) 65%, transparent)  20%,
+        color-mix(in srgb, var(--col-accent) 75%, transparent)  90%,
+        var(--col-accent)                                       93%,
+        var(--col-accent)                                       95%,
+        transparent
+    );
+    color : var(--col-fg-dark);
+
+    border-radius : 10%;
+}
+
+.groupedList > .group > .rows {
+    display : flex;
+
+    flex-direction : column;
+}
+
+.groupedList > .group > .rows > a {
+    padding : 5pt;
+
+    color : var(--col-fg);
+
+    text-decoration : none;
+}
+
+.groupedList > .group > .rows > a > * {
+    display : inline;
+}
+
+.groupedList > .group > .rows > a:hover {
+    background : var(--col-bg-lighter);
+}

@@ -34,13 +34,13 @@ var CarHtmlCompiler = /** @class */ (function () {
                         return (it.set.toLowerCase() == set && it.type == type);
                     })[0]);
                 };
-                for (var _e = 0, types_1 = types; _e < types_1.length; _e++) {
-                    var type = types_1[_e];
+                for (var _g = 0, types_1 = types; _g < types_1.length; _g++) {
+                    var type = types_1[_g];
                     _loop_4(type);
                 }
             };
-            for (var _b = 0, sets_1 = sets; _b < sets_1.length; _b++) {
-                var set = sets_1[_b];
+            for (var _d = 0, sets_1 = sets; _d < sets_1.length; _d++) {
+                var set = sets_1[_d];
                 _loop_2(set);
             }
             var _loop_3 = function (type) {
@@ -60,8 +60,8 @@ var CarHtmlCompiler = /** @class */ (function () {
             // Filter out empty columns
             // Need to iterate on a shallow copy of the type array
             // As the original will be modified in this loop
-            for (var _c = 0, _d = types.slice(); _c < _d.length; _c++) {
-                var type = _d[_c];
+            for (var _e = 0, _f = types.slice(); _e < _f.length; _e++) {
+                var type = _f[_e];
                 _loop_3(type);
             }
             // Render main table with Eta
@@ -74,7 +74,7 @@ var CarHtmlCompiler = /** @class */ (function () {
                 })
             });
             // Write table HTML files
-            var outFile = path.join(context.args.outPath, "".concat(template.getName(), ".html"));
+            var outFile = path.join(context.args.outPath, "cars/".concat(template.getName(), ".html"));
             Log_js_1.log.info("CarHtmlCompiler :: Writing ".concat(outFile));
             fs.writeFileSync(outFile, document_1, { flag: 'w' });
         };
@@ -82,6 +82,22 @@ var CarHtmlCompiler = /** @class */ (function () {
             var template = _a[_i];
             _loop_1(template);
         }
+        Log_js_1.log.info("CarHtmlCompiler :: Generating listing HTML");
+        var carGroups = {};
+        for (var _b = 0, _c = context.carTemplates; _b < _c.length; _b++) {
+            var template = _c[_b];
+            if (carGroups[template.name.brand] === undefined) {
+                carGroups[template.name.brand] = [];
+            }
+            carGroups[template.name.brand].push(template);
+        }
+        var document = eta.render("./root", {
+            body: eta.render("./list", {
+                itemGroups: carGroups
+            })
+        });
+        Log_js_1.log.info("CarHtmlCompiler :: Writing listing file");
+        fs.writeFileSync(path.join(context.args.outPath, "carlist.html"), document, { flag: 'w' });
         return context;
     };
     return CarHtmlCompiler;
