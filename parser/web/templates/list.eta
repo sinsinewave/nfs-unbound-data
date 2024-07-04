@@ -4,7 +4,14 @@
             <h2 class="title"><%= item %> </h2>
             <div class="rows">
                 <% for (let template of it.itemGroups[item]) { %>
-                    <a href="cars/<%= `${template.getName()}.html` %>"><p><%= `${template.name.year}` %></p><b><%= ` ${template.name.model}` %></b></a>
+                    <a href="cars/<%= `${template.getName()}.html` %>">
+                        <p><%= `${template.name.year}` %><b><%= ` ${template.name.model}` %></b></p>
+                        <span class="tags">
+                            <% for (let car of template.cars) { %>
+                                <p class="tag <%= car.name.model.endsWith(" cop") ? " cop" : "" %>"><%= car.name.model %></p>
+                            <% } %>
+                        </span>
+                    </a>
                 <% } %>
             </div>
         </div>

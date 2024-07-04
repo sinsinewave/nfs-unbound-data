@@ -66,8 +66,8 @@ export class CarScanner {
                 let car = new Car(
                     file,
                     Number(xmlObj.RaceVehicleItemData.Id[0].ItemDataId[0].Id[0]),
-                    file.split("/").at(-1)!.split("_")[2],
-                    file.split("/").at(-1)!.split("_")[3]
+                    file.toLowerCase().split("/").at(-1)!.split("_")[2] + (file.toLowerCase().includes("cop") ? " cop" : ""),
+                    file.toLowerCase().split("/").at(-1)!.split("_")[3]
                 )
 
                 template.cars.push(car)

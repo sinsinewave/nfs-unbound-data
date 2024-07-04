@@ -41,11 +41,18 @@
 }
 
 .groupedList > .group > .rows > a {
-    padding : 5pt;
+    display : flex;
+
+    align-items     : center;
+    justify-content : space-between;
+
+    padding-left : 5pt;
 
     color : var(--col-fg);
 
     text-decoration : none;
+
+    border-top : 1px solid var(--col-bg-dark);
 }
 
 .groupedList > .group > .rows > a > * {
@@ -54,4 +61,38 @@
 
 .groupedList > .group > .rows > a:hover {
     background : var(--col-bg-lighter);
+}
+
+.groupedList > .group > .rows > a > .tags > .tag {
+    display : inline;
+
+    padding-left  : 5pt;
+    padding-right : 5pt;
+    margin        : 2pt;
+
+    font-weight : bold;
+    font-style  : italic;
+
+    background : linear-gradient(100deg,
+        transparent                                              2%,
+        var(--col-accent)                                        5%,
+        color-mix(in srgb, var(--col-accent) 65%, transparent)  20%,
+        color-mix(in srgb, var(--col-accent) 75%, transparent)  90%,
+        var(--col-accent)                                       93%,
+        var(--col-accent)                                       95%,
+        transparent
+    );
+    color : var(--col-fg-dark);
+}
+
+.groupedList > .group > .rows > a > .tags > .tag.cop {
+    background : linear-gradient(100deg,
+        transparent                                    2%,
+        #FF355E                                        5%,
+        color-mix(in srgb, #FF355E 65%, transparent)  20%,
+        color-mix(in srgb, #286ACD 75%, transparent)  90%,
+        #286ACD                                       93%,
+        #286ACD                                       95%,
+        transparent
+    );
 }
