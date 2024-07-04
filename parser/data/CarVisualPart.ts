@@ -3,7 +3,9 @@ import { log } from "../util/Log.js"
 import { Car } from "./Car.js"
 
 export class CarVisualPart {
-    scopes : Car[]
+    scopes      : Car[]  = []
+    totalScopes : number = 0
+
     flags  : {
         purchasable : boolean,
         ignoreUI    : boolean,
@@ -18,7 +20,6 @@ export class CarVisualPart {
         public brand       : string  = "generic",
         public implemented : boolean = true
     ) {
-        this.scopes = []
         this.flags  =  {
             purchasable : true,
             ignoreUI    : false,

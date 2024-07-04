@@ -41,6 +41,7 @@ export class CarPartMapper {
                     if (!it.scopes.includes(car)) {
                         it.scopes.push(car)
                     }
+                    it.totalScopes = carTemplate.cars.length
                 })
             }
         }

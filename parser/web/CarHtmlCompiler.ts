@@ -44,13 +44,32 @@ export class CarHtmlCompiler {
                 }
             }
 
-            
+            // Filter out empty columns
+            // Need to iterate on a shallow copy of the type array
+            // As the original will be modified in this loop
+            for (let type of types.slice()) {
+                let typeParts = []
+                for (let set in partsBySet) {
+                    typeParts = typeParts.concat(partsBySet[set].filter((it) => { return it !== undefined && it.type === type }))
+                }
+                if (typeParts.length == 0) {
+                    log.dbug(`CarHtmlCompiler :: Removing empty type ${type} from car ${template.getName()}`)
+                    let typeIndex = types.indexOf(type, 0)
+                    for (let set in partsBySet) {
+                        partsBySet[set].splice(typeIndex, 1)
+                    }
+                    types.splice(typeIndex, 1)
+                }
+            }
 
             // Render main table with Eta
-            let document = eta.render("./carPartTable", {
-                headers : types,
-                sets    : sets,
-                parts   : partsBySet
+            let document = eta.render("./root", {
+                body : eta.render("./carPartTable", {
+                    headers : types,
+                    sets    : sets,
+                    parts   : partsBySet,
+                    scopes  : template.cars
+                })
             })
 
             // Write table HTML files

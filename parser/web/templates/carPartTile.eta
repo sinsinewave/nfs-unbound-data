@@ -1,20 +1,31 @@
-<div id="partGrid-<%= it.id %>" class="subGrid">
+<div id="partGrid-<%= it.id %>" class="subGrid <%- it.scopes.forEach((jt, idx) => { -%>
+    <%_= `scope-${jt.name.model} ` -%>
+    <%- }) -%>
+    ">
     <b class="title"><%= it.id %></b>
     <table><tbody>
         <tr>
-            <th>In Scopes?</th>
-            <td title="<%- it.scopes.map((jt) => { return jt.name.model }).forEach((kt, idx) => { -%>
-                <%_= `${idx != 0 ? "\n" : ""}${kt}` -%>
-            <%- }) -%>
-            "><%= it.scopes.length %></td>
+            <th>In Scopes</th>
+            <td title="<%- it.scopes.forEach((jt, idx) => { -%>
+                    <%_= `${idx != 0 ? "\n" : ""}${jt.name.model}` _%>
+                <%- }) -%>" class="field highlight
+                <% if (it.scopes.length == 0) { %>
+                    <%= " negative" %>
+                <% } %>
+                <% else if (it.scopes.length < it.totalScopes ) { %>
+                    <%= " neutral" %>
+                <% } %>
+                <% else { %>
+                    <%= " positive" %>
+                <% } %>
+            "><%= it.scopes.length %>/<%= `${it.totalScopes}` %></td>
         </tr>
         <tr>
-            <th>Purchaseable?</th>
-            <td><%= it.flags.purchasable %></td>
+            <th>Purchaseable</th>
+            <td class="field highlight <%= it.flags.purchasable ? " positive" : " negative" %>"><%= it.flags.purchasable %></td>
         </tr>
-            <th>IgnoreUI Set?</th>
-            <td><%= it.flags.ignoreUI %></td>
+            <th>IgnoreUI</th>
+            <td class="field highlight <%= it.flags.ignoreUI ? " negative" : " positive" %>"><%= it.flags.ignoreUI %></td>
         </tr>
     </tbody></table
 </div>
-

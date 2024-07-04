@@ -1,0 +1,194 @@
+:root {
+    --col-bg-dark    : #101212;
+    --col-bg         : #15171C;
+    --col-bg-light   : #25272C;
+    --col-bg-lighter : #35373C;
+    --col-fg         : #F7FAF7;
+    --col-fg-dark    : #15171C;
+    --col-accent     : #0BDA51;
+}
+
+body {
+    font-size   : 10pt;
+    font-family : monospace;
+
+    padding : 0px;
+    margin  : 0px;
+
+    background : var(--col-bg);
+    color      : var(--col-fg);
+}
+
+/* Main table */
+.main-table {
+    margin-top : 50px;
+
+    border-collapse : collapse;
+
+    overflow : hidden;
+}
+
+.main-table > tbody > tr > td,
+.main-table > tbody > tr > th
+{
+    margin    : 0px;
+    border : black 1px solid;
+}
+
+.main-table > tbody > .row-0 {
+    position : sticky;
+
+    top : 52px;
+
+    z-index : 970;
+}
+
+.main-table > tbody > tr > .col-0 {
+    position : sticky;
+    
+    left : 0px;
+
+    z-index : 980;
+}
+
+.main-table > tbody > .row-0,
+.main-table > tbody > tr > .col-0
+{
+    background : var(--col-bg-light);
+}
+
+/* Crosshair */
+/* Row highlight */
+.main-table > tbody > tr:hover:not(.row-0) {
+    background : var(--col-bg-dark);
+}
+
+/* Transparent background for each cell */
+.main-table > tbody > tr:hover > td {
+    position   : relative;
+    
+    background : transparent;
+}
+
+/* Column highlight using pseudo-element */
+.main-table > tbody > tr > td:hover:before {
+    content : " ";
+
+    position : absolute;
+
+    width  : 100%;
+    height : 300vh;
+    
+    left : 0;
+    top  : -150vh;
+
+    z-index : -1;
+
+    background : var(--col-bg-dark);
+
+    overflow : visible;
+}
+
+/* Subgrids in main table */
+.subGrid {
+    display  : flex;
+    position : relative;
+
+    margin : 2pt;
+
+    flex-direction : column;
+}
+
+.subGrid.fade * {
+    filter : grayscale(100%)
+             brightness(80%);
+}
+
+.subGrid .title {
+    display : block;
+
+    padding-left : 7%;
+
+    font-style : italic;
+
+    background : linear-gradient(100deg,
+        transparent                                              2%,
+        var(--col-accent)                                        5%,
+        color-mix(in srgb, var(--col-accent) 65%, transparent)  20%,
+        color-mix(in srgb, var(--col-accent) 75%, transparent)  90%,
+        var(--col-accent)                                       93%,
+        var(--col-accent)                                       95%,
+        transparent
+    );
+    color : var(--col-fg-dark);
+
+    border-radius : 10%;
+}
+
+.subGrid table {
+     background : var(--col-bg-lighter);
+
+     border-radius : 5pt;
+}
+
+.subGrid tr th {
+    text-align : left;
+}
+
+.subGrid .field {
+    text-align : center;
+}
+
+.subGrid .field.highlight {
+    font-weight : bold;
+
+    color : var(--col-fg-dark);
+
+    border-radius : 3pt;
+}
+
+.subGrid .field.highlight.positive {
+    background : #0BDA51;
+}
+
+.subGrid .field.highlight.negative {
+    background : #FF355E;
+}
+
+.subGrid .field.highlight.neutral {
+    background : #FCC01E;
+}
+
+/* Options bar/header */
+.table-options {
+    display  : flex;
+    position : fixed;
+
+    align-items     : center;
+    justify-content : space-between;
+
+    width  : 100vw;
+    height : 50px;
+
+    top : 0px;
+
+    background : var(--col-accent);
+    color      : var(--col-fg-dark);
+
+    z-index : 999;
+
+    border-bottom : 2px solid black;
+}
+
+.table-options * {
+    margin-left  : 3.5pt;
+    margin-right : 10pt;
+}
+
+.table-options div {
+    display : flex;
+
+    flex-direction : column;
+
+    justify-content : flex-start;
+}

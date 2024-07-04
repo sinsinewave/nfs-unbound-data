@@ -1,20 +1,32 @@
+<span class="table-options">
+    <div>
+        <label for="filter">Highlight Scope</label>
+        <select name="filter" id="filter" onchange="updateTableFilter(this)">
+            <option value="none">none</option>
+            <% it.scopes.forEach((jt) => { %>
+                <option value="<%= jt.name.model %>"><%= jt.name.model %></option>
+            <% }) %>
+        </select>
+    </div>
+    <h1><%= it.scopes[0].template.getName() %></h1> 
+</span>
 <table class="main-table"><tbody>
     <tr class="row-0">
         <th></th>
-        <% it.headers.forEach((jt) => { %>
-        <th><%= jt %></th>
+        <% it.headers.forEach((jt, idx) => { %>
+        <th class="col-<%= idx+1 %>"><%= jt %></th>
         <% }) %>
     </tr>
 
-    <% it.sets.forEach((jt) => { %>
+    <% it.sets.forEach((jt, ridx) => { %>
     <tr>
-        <th>set<%= jt %></th>
-        <% it.parts[jt].forEach((kt) => { %>
-            <th>
+        <th class="col-0">set<%= jt %></th>
+        <% it.parts[jt].forEach((kt, cidx) => { %>
+        <td class="col-<%= cidx+1 %> row-<%= ridx+1 %>">
             <% if (kt) { %>
-                <%~ include("./carPartTile", kt) %>
+            <%~ include("./carPartTile", kt) %>
             <% } %>
-            </th>
+        </td>
         <% }) %>
     </tr>
     <% }) %>

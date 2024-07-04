@@ -29,25 +29,49 @@ var CarHtmlCompiler = /** @class */ (function () {
             var partsBySet = {};
             var _loop_2 = function (set) {
                 partsBySet[set] = [];
-                var _loop_3 = function (type) {
+                var _loop_4 = function (type) {
                     partsBySet[set].push(template.visualParts.filter(function (it) {
                         return (it.set.toLowerCase() == set && it.type == type);
                     })[0]);
                 };
-                for (var _c = 0, types_1 = types; _c < types_1.length; _c++) {
-                    var type = types_1[_c];
-                    _loop_3(type);
+                for (var _e = 0, types_1 = types; _e < types_1.length; _e++) {
+                    var type = types_1[_e];
+                    _loop_4(type);
                 }
             };
             for (var _b = 0, sets_1 = sets; _b < sets_1.length; _b++) {
                 var set = sets_1[_b];
                 _loop_2(set);
             }
+            var _loop_3 = function (type) {
+                var typeParts = [];
+                for (var set in partsBySet) {
+                    typeParts = typeParts.concat(partsBySet[set].filter(function (it) { return it !== undefined && it.type === type; }));
+                }
+                if (typeParts.length == 0) {
+                    Log_js_1.log.dbug("CarHtmlCompiler :: Removing empty type ".concat(type, " from car ").concat(template.getName()));
+                    var typeIndex = types.indexOf(type, 0);
+                    for (var set in partsBySet) {
+                        partsBySet[set].splice(typeIndex, 1);
+                    }
+                    types.splice(typeIndex, 1);
+                }
+            };
+            // Filter out empty columns
+            // Need to iterate on a shallow copy of the type array
+            // As the original will be modified in this loop
+            for (var _c = 0, _d = types.slice(); _c < _d.length; _c++) {
+                var type = _d[_c];
+                _loop_3(type);
+            }
             // Render main table with Eta
-            var document_1 = eta.render("./carPartTable", {
-                headers: types,
-                sets: sets,
-                parts: partsBySet
+            var document_1 = eta.render("./root", {
+                body: eta.render("./carPartTable", {
+                    headers: types,
+                    sets: sets,
+                    parts: partsBySet,
+                    scopes: template.cars
+                })
             });
             // Write table HTML files
             var outFile = path.join(context.args.outPath, "".concat(template.getName(), ".html"));

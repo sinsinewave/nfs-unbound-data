@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
+        <script>
+            function updateTableFilter(e) {
+                let scope = e.value
+                document.querySelectorAll(`.subGrid`).forEach((it) => {
+                    it.classList.remove("fade")
+                })
+                if (scope == "none") { return }
+                document.querySelectorAll(`.subGrid:not(.scope-${scope})`).forEach((it) => {
+                    it.classList.add("fade")
+                })
+            }
+        </script>
+    </head>
+
+    <body>
+        <%~ it.body %>
+    </body>
+</html>

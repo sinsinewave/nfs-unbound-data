@@ -87,6 +87,7 @@ var CarPartMapper = /** @class */ (function () {
                                                             if (!it.scopes.includes(car)) {
                                                                 it.scopes.push(car);
                                                             }
+                                                            it.totalScopes = carTemplate.cars.length;
                                                         });
                                                         return [2 /*return*/];
                                                 }

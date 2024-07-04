@@ -13,6 +13,7 @@ var CarVisualPart = /** @class */ (function () {
         this.brand = brand;
         this.implemented = implemented;
         this.scopes = [];
+        this.totalScopes = 0;
         this.flags = {
             purchasable: true,
             ignoreUI: false,
