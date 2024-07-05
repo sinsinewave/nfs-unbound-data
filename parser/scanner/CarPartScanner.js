@@ -90,7 +90,7 @@ var CarPartScanner = /** @class */ (function () {
                     case 2:
                         xmlObj = _b.sent();
                         itemData = xmlObj[Object.keys(xmlObj)[0]];
-                        part = new CarVisualPart_js_1.CarVisualPart(file, Number(itemData.Id[0].ItemDataId[0].Id[0]), file.includes("shared_") ? "shared" : file.split("_").at(-1).split(".")[0].replace(/^(set)/, ""));
+                        part = new CarVisualPart_js_1.CarVisualPart(file, Number(itemData.Id[0].ItemDataId[0].Id[0]), file.includes("shared_") ? "shared" : file.toLowerCase().split("_").at(-1).split(".")[0].replace(/^(set)/, ""));
                         // Figure out ignoreUI flag
                         // For some reason i feel like this is needlessly convoluted
                         try {
