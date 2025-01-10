@@ -22,6 +22,15 @@ var CarVisualPart = /** @class */ (function () {
     }
     CarVisualPart.prototype.setTypeAsString = function (type) {
         switch (type.toLowerCase()) {
+            // V9
+            case "ledboard": {
+                this.type = PartType.LEDBOARD;
+                break;
+            }
+            case "rooflight": {
+                this.type = PartType.ROOFLIGHT;
+                break;
+            }
             // Wheels
             case "wheelf":
             case "wheelfl":
@@ -176,6 +185,10 @@ var CarVisualPart = /** @class */ (function () {
 exports.CarVisualPart = CarVisualPart;
 var PartType;
 (function (PartType) {
+    // V9
+    PartType["LEDBOARD"] = "LED Board";
+    PartType["ROOFLIGHT"] = "Roof light";
+    // V0-7
     PartType["HEADLIGHTS"] = "Headlights";
     PartType["SPLITTER"] = "Splitter";
     PartType["MIRRORS"] = "Mirrors";

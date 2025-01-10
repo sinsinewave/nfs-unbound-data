@@ -29,6 +29,10 @@ export class CarVisualPart {
 
     setTypeAsString(type: string) {
         switch(type.toLowerCase()) {
+            // V9
+            case "ledboard"     : { this.type = PartType.LEDBOARD; break }
+            case "rooflight"    : { this.type = PartType.ROOFLIGHT; break }
+
             // Wheels
             case "wheelf"       :
             case "wheelfl"      : 
@@ -90,6 +94,10 @@ export class CarVisualPart {
 }
 
 export enum PartType {
+    // V9
+    LEDBOARD            = "LED Board",
+    ROOFLIGHT           = "Roof light",
+    // V0-7
     HEADLIGHTS          = "Headlights",
     SPLITTER            = "Splitter",
     MIRRORS             = "Mirrors",
