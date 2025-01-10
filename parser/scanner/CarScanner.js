@@ -88,7 +88,7 @@ var CarScanner = /** @class */ (function () {
                         _d = _c[_e];
                         if (!(_d in _b)) return [3 /*break*/, 6];
                         dir = _d;
-                        template = new CarTemplate_js_1.CarTemplate(dir, dir.split("/").at(-1).split("_")[1], dir.split("/").at(-1).split("_")[2], +dir.split("/").at(-1).split("_")[3]);
+                        template = new CarTemplate_js_1.CarTemplate(dir, dir.split("/").at(-1).split("_")[1].toLowerCase(), dir.split("/").at(-1).split("_")[2].toLowerCase(), +dir.split("/").at(-1).split("_")[3].toLowerCase());
                         _f = 0, _g = filesByDir[dir];
                         _h.label = 2;
                     case 2:

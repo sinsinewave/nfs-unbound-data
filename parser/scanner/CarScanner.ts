@@ -47,9 +47,9 @@ export class CarScanner {
             // Carve out brand, model, and year, and make a CarTemplate
             let template = new CarTemplate(
                 dir,
-                dir.split("/").at(-1)!.split("_")[1],
-                dir.split("/").at(-1)!.split("_")[2],
-                +dir.split("/").at(-1)!.split("_")[3]
+                dir.split("/").at(-1)!.split("_")[1].toLowerCase(),
+                dir.split("/").at(-1)!.split("_")[2].toLowerCase(),
+                +dir.split("/").at(-1)!.split("_")[3].toLowerCase()
             )
 
             // Fill in car variants
