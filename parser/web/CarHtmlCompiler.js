@@ -84,6 +84,7 @@ var CarHtmlCompiler = /** @class */ (function () {
         }
         Log_js_1.log.info("CarHtmlCompiler :: Generating listing HTML");
         var carGroups = {};
+        context.carTemplates.sort(function (a, b) { return a.name.brand.localeCompare(b.name.brand); });
         for (var _b = 0, _c = context.carTemplates; _b < _c.length; _b++) {
             var template = _c[_b];
             if (carGroups[template.name.brand] === undefined) {

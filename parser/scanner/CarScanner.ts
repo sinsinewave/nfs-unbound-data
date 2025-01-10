@@ -20,7 +20,7 @@ export class CarScanner {
         let fileList = walkDir(
             path,
             (it : string): boolean => {
-                return /^(cop)?car_[0-9a-z]+_[0-9a-z]+_\d{4}(_(cop|icon))?\.xml$/gmi.test(it)
+                return /^(cop)?(car|bike)_[0-9a-z]+_[0-9a-z]+_\d{4}(_(cop|icon))?\.xml$/gmi.test(it)
             },
             (it : string): boolean => {
                 // filter to items dir, ignore secondhand vehicles, contains nothing of relevance to this tool

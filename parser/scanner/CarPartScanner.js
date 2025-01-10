@@ -65,7 +65,7 @@ var CarPartScanner = /** @class */ (function () {
                         // Locate car part XMLs and directories, with some filtering
                         Log_js_1.log.info("CarPartScanner :: Looking for item files");
                         fileList = (0, Files_js_1.walkDir)(path, function (it) {
-                            return /^car_[0-9a-z]+_[0-9a-z]+_\d{4}_[a-z]+_set[a-z0-9]+\.xml$/gmi.test(it) || (it.toLowerCase().startsWith("shared_") && it.endsWith(".xml"));
+                            return /^(car|bike)_[0-9a-z]+_[0-9a-z]+_\d{4}_[a-z]+_set[a-z0-9]+\.xml$/gmi.test(it) || (it.toLowerCase().startsWith("shared_") && it.endsWith(".xml"));
                         }, function (it) {
                             // Ignore secondhand vehicles, like in the car scan, we aren't interested in that
                             return it.includes("items") && !it.includes("secondhand_vehicles");

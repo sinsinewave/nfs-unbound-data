@@ -85,6 +85,7 @@ export class CarHtmlCompiler {
         log.info("CarHtmlCompiler :: Generating listing HTML")
 
         let carGroups = {}
+        context.carTemplates.sort((a, b) => a.name.brand.localeCompare(b.name.brand))
         for (let template of context.carTemplates) {
             if (carGroups[template.name.brand] === undefined) {
                 carGroups[template.name.brand] = []

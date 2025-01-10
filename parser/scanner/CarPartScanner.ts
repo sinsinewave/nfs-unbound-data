@@ -28,7 +28,7 @@ export class CarPartScanner {
         let fileList = walkDir(
             path,
             (it : string): boolean => {
-                return /^car_[0-9a-z]+_[0-9a-z]+_\d{4}_[a-z]+_set[a-z0-9]+\.xml$/gmi.test(it) || (it.toLowerCase().startsWith("shared_") && it.endsWith(".xml"))
+                return /^(car|bike)_[0-9a-z]+_[0-9a-z]+_\d{4}_[a-z]+_set[a-z0-9]+\.xml$/gmi.test(it) || (it.toLowerCase().startsWith("shared_") && it.endsWith(".xml"))
             },
             (it : string): boolean => {
                 // Ignore secondhand vehicles, like in the car scan, we aren't interested in that
